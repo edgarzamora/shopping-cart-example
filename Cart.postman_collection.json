@@ -1,0 +1,236 @@
+{
+	"info": {
+		"_postman_id": "e1746de8-0a12-4b8d-b4a7-17920ee92fb5",
+		"name": "Cart",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Healthcheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:4567/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "320e6f72-572f-4b25-8326-b26c8991ae97",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"cartId\", jsonData.cartId);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:4567/cart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:4567/cart/{{cartId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"cart",
+						"{{cartId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Item To Cart",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"quantity\": 1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4567/cart/{{cartId}}/item/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"cart",
+						"{{cartId}}",
+						"item",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Multiple Items To Cart",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"itemId\": 2,\n\t\t\"quantity\": 1\n\t},\n\t{\n\t\t\"itemId\": 3,\n\t\t\"quantity\": 1\n\t},\n\t{\n\t\t\"itemId\": 4,\n\t\t\"quantity\": 1\n\t},\n\t{\n\t\t\"itemId\": 5,\n\t\t\"quantity\": 1\n\t}\n]"
+				},
+				"url": {
+					"raw": "http://localhost:4567/cart/{{cartId}}/item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"cart",
+						"{{cartId}}",
+						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Item From Cart",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"quantity\": 10\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4567/cart/{{cartId}}/item/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"cart",
+						"{{cartId}}",
+						"item",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Item From Cart",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:4567/cart/{{cartId}}/item/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"cart",
+						"{{cartId}}",
+						"item",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete All Items From Cart",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:4567/cart/{{cartId}}/item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"cart",
+						"{{cartId}}",
+						"item"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

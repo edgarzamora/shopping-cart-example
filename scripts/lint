@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+"""A lint runner that allows us to run multiple lint targets in parallel."""
+import asyncio
+import sys
+
+sources = " ".join([
+    "blueprints",
+    "lib",
+    "scripts",
+])
+
+lint_targets = (
+    # Docstring-only lint on all non-test modules:
+    "find {sources} -name '*.py' ! -name 'test_*' " "-print0 | "
+    "xargs -0 flake8 --select=D",
+    # Everything lint on all modules.
+    "find {sources} -name '*.py' -print0 | xargs -0 flake8 --ignore=D",
+)
+
+
+async def main():
+    """Run all `lint_targets` asynchronously."""
+    lint_coroutines = [
+        asyncio.subprocess.create_subprocess_shell(
+            command.format(sources=sources), stdout=sys.stdout,
+            stderr=sys.stderr)
+        for command in lint_targets
+    ]
+
+    lint_processes = await asyncio.gather(*lint_coroutines)
+    results = await asyncio.gather(
+        *[process.wait() for process in lint_processes])
+
+    return_code = 0
+    for result in results:
+        return_code |= result
+
+    sys.exit(return_code)
+
+
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
